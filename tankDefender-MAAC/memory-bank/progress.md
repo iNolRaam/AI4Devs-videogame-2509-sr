@@ -1,8 +1,21 @@
 # Progress — Tank Defender (MVP)
 
-Date: 2025-06-02
+Date: 2025-11-16
 
 ## Updates
+- **Completed ENEMY-6 SpawnEnemy Use Case (2025-11-16)**:
+  - SpawnEnemy use case orchestrates spawning through spawnManager, enemyRenderer, physicsPort
+  - execute(currentTime) returns spawned Enemy or null
+  - Calls spawnManager.spawnEnemy(), then sets up rendering/physics if successful
+  - Added enableBody method to IPhysics interface for physics setup
+  - 9 unit tests passing (spawning flow, port calls, null handling)
+- **Completed ENEMY-5 Port Interfaces (2025-11-16)**:
+  - ISpawnManager interface: canSpawn, spawnEnemy, removeEnemy, getRemainingCount, getActiveEnemies
+  - IAI interface: update method for enemy AI decisions
+  - IEnemyRenderer interface: createEnemy, updateEnemy, removeEnemy methods
+  - All interfaces documented with JSDoc type annotations
+  - Exported as const objects for adapter implementations
+  - No tests required (interfaces only)
 - Synchronized Memory Bank with latest PRD (`../prd.md`), GDD (`../gdd.md`) and User Stories (`../user-stories.md`).
 - Overhauled `activeContext.md` with consolidated gameplay, platform, and architecture context.
 - Aligned rules in `copilot-rules.md` with Kiro‑Lite workflow and sources of truth.
@@ -49,12 +62,35 @@ Date: 2025-06-02
   - **Fixed movement demo**: Players now render correctly at `/demos/movement.html`
   - All tests now pass cleanly with no false failures
   - Test coverage maintained: 197 tests across unit, integration, application, and QA layers
-  - Next: ENEMY-4 EnemyAI Service (behavior logic, decision-making)
+  - Next: ENEMY-5 Port Interfaces (ISpawnManager, IAI, IEnemyRenderer)
+---
+- **Completed ENEMY-7 UpdateEnemyAI Use Case (2025-11-16)**:
+  - Orchestrates AI updates with MovementService, EnemyRenderer, and Projectile port
+  - Applies direction/velocity to sprites; fires projectiles every 3s when aligned
+  - Fix: immutable position for projectile firing to avoid reference mutation in tests
+  - 11 unit tests passing
+
+- **Completed ENEMY-8 DestroyEnemy Use Case (2025-11-16)**:
+  - Removes enemy from SpawnManager, disables physics body, removes sprite, updates HUD
+  - Handles missing enemy gracefully
+  - 10 unit tests passing
+
+- **Completed ENEMY-9 EnemySpriteAdapter (2025-11-16)**:
+  - Phaser adapter for enemy sprites (create, update, remove) with placeholder visuals
+  - Added `getSprite(enemyId)` to support collision bindings
+  - 12 integration tests passing
+
+- **Completed ENEMY-10 GameScene Enemy Integration + Projectile System (2025-11-16)**:
+  - Integrated SpawnManager, TargetingService, EnemyAI, and use cases in `GameScene`
+  - Added `ProjectileSystemAdapter` (implements `IProjectileSystem.fireProjectile`)
+  - Hooked projectile update and collisions: players on scene init; enemies on spawn
+  - On enemy hit: calls `DestroyEnemy.execute(targetId)`
+  - All tests passing: 272/272; performance QA suite green
 
 ## Status
-- Phase: Feature `enemy-spawning-ai` **IN PROGRESS** ✅ (ENEMY-1, ENEMY-2, ENEMY-3 completed, 2025-11-16)
+- Phase: Feature `enemy-spawning-ai` **IN PROGRESS** ✅ (ENEMY-1..ENEMY-10 completed, 2025-11-16)
 - Performance: Achieves 58-60 FPS (exceeds 30 FPS target), input latency ~16ms (<100ms target).
-- Test Coverage: 218 tests (100% pass rate) across domain, application, and integration layers. Enemy tests: 63 total (18 Enemy + 24 SpawnManager + 21 TargetingService).
+- Test Coverage: 272 tests (100% pass rate) across domain, application, integration, and QA. Enemy tests increased with adapter/integration additions.
 - Test Framework: Vitest migration completed ✅ - All tests running on Vitest 4.0.9 with jsdom environment
 - Module system: ES6 modules implemented (browser-compatible).
 - Architecture: Clean Architecture with class-based use cases (HandlePlayerInput, MovePlayer with execute() methods)
@@ -65,13 +101,13 @@ Date: 2025-06-02
   - Arrow keys use Phaser's `createCursorKeys()` API for proper browser event handling
   - Use cases instantiated with `new` keyword and called via `.execute()` methods
   - Direction constants: lowercase ('up', 'down', 'left', 'right', 'idle')
-- **Ready for next task:** ENEMY-4 EnemyAI Service implementation.
+- **Ready for next tasks:** ENEMY-11 Level JSON spawn config, ENEMY-12 HUD enemies counter updates, player hit handling.
 
 ## Next Steps
 - Use Kiro‑Lite phases to plan and implement features derived from the backlog.
 - When a feature starts: `/start feature <name>` → PRD intake.
 - **Recommended next features:**
-  - `enemy-spawning-ai` (US-05, US-06): **IN PROGRESS** - ENEMY-4 EnemyAI Service, then ENEMY-5 to ENEMY-16
+  - `enemy-spawning-ai` (US-05, US-06): **IN PROGRESS** - ENEMY-7 UpdateEnemyAI Use Case, then ENEMY-8 to ENEMY-16
   - `projectile-system` (US-07, US-08): Player shooting, projectile collision
   - `power-ups` (US-09): Shovel tile destruction
   - `enemy-shooting` (US-10): Enemy projectiles

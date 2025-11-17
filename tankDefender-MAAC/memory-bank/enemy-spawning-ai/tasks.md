@@ -84,7 +84,7 @@
 - Integration test with TargetingService
 
 **Effort:** M  
-**Status:** Not started  
+**Status:** ✅ Completed
 **Files/Modules:** `/src/domain/services/EnemyAI.js`, `/tests/unit/enemy/enemyAI.test.js`
 
 ---
@@ -109,7 +109,7 @@
 - Interfaces exported for adapter implementations
 
 **Effort:** S  
-**Status:** Not started  
+**Status:** ✅ Completed
 **Files/Modules:** `/src/application/ports/ISpawnManager.js`, `/src/application/ports/IAI.js`, `/src/application/ports/IEnemyRenderer.js`
 
 ---
@@ -128,7 +128,7 @@
 - No direct Phaser dependencies (uses ports)
 
 **Effort:** S  
-**Status:** Not started  
+**Status:** ✅ Completed
 **Files/Modules:** `/src/application/use-cases/SpawnEnemy.js`, `/tests/unit/enemy/spawnEnemy.test.js`
 
 ---
@@ -148,7 +148,7 @@
 - No direct Phaser dependencies (uses ports)
 
 **Effort:** M  
-**Status:** Not started  
+**Status:** ✅ Completed  
 **Files/Modules:** `/src/application/use-cases/UpdateEnemyAI.js`, `/tests/unit/enemy/updateEnemyAI.test.js`
 
 ---
@@ -167,7 +167,7 @@
 - No direct Phaser dependencies (uses ports)
 
 **Effort:** S  
-**Status:** Not started  
+**Status:** ✅ Completed  
 **Files/Modules:** `/src/application/use-cases/DestroyEnemy.js`, `/tests/unit/enemy/destroyEnemy.test.js`
 
 ---
@@ -186,7 +186,7 @@
 - Integration test with Phaser scene
 
 **Effort:** M  
-**Status:** Not started  
+**Status:** ✅ Completed  
 **Files/Modules:** `/src/adapters/rendering/EnemySpriteAdapter.js`, `/tests/integration/enemy/enemySpriteAdapter.test.js`
 
 ---
@@ -206,8 +206,9 @@
 - Integration test verifies AI behavior (movement, shooting)
 
 **Effort:** L  
-**Status:** Not started  
-**Files/Modules:** `/src/infrastructure/scenes/GameScene.js`, `/tests/integration/enemy/gameSceneEnemy.test.js`
+**Status:** In progress  
+**Files/Modules:** `/src/infrastructure/scenes/GameScene.js`, `/src/adapters/projectile/ProjectileSystemAdapter.js`, `/tests/integration/enemy/gameSceneEnemy.test.js`
+**Notes:** Initial integration done (spawn/AI wired in `GameScene`, projectile system added, HUD initialized). Dedicated GameScene enemy integration tests pending.
 
 ---
 
@@ -326,13 +327,13 @@
 ## Implementation Order (Recommended)
 
 **Phase 1: Domain Layer (Pure Logic)**
-1. ENEMY-1 → ENEMY-2 → ENEMY-3 → ENEMY-4
+1. ENEMY-1 → ENEMY-2 → ENEMY-3 → ENEMY-4 ✅
 
 **Phase 2: Application Layer (Use Cases & Ports)**
-2. ENEMY-5 → ENEMY-6 → ENEMY-7 → ENEMY-8
+2. ENEMY-5 → ENEMY-6 ✅ → ENEMY-7 ✅ → ENEMY-8 ✅
 
 **Phase 3: Adapters & Infrastructure**
-3. ENEMY-9 → ENEMY-11 → ENEMY-12 → ENEMY-10
+3. ENEMY-9 ✅ → ENEMY-11 → ENEMY-12 → ENEMY-10 (in progress)
 
 **Phase 4: Testing & Demo**
 4. ENEMY-13 → ENEMY-14 → ENEMY-15 → ENEMY-16

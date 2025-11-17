@@ -65,12 +65,15 @@
  */
 
 /**
- * Stop entity movement (set velocity to zero)
+ * Disable physics body for an entity
  * 
  * @function
- * @name IPhysics#stop
+ * @name IPhysics#disableBody
  * @param {string} entityId - Entity identifier
  * @returns {void}
+ * 
+ * @example
+ * physics.disableBody('E001');
  */
 
 /**
@@ -81,6 +84,8 @@
  * @property {function(string, string, Function): void} onCollide
  * @property {function(string): {x: number, y: number}} getVelocity
  * @property {function(string): void} stop
+ * @property {function(string, {x: number, y: number}): void} enableBody
+ * @property {function(string): void} disableBody
  */
 
 export default {};

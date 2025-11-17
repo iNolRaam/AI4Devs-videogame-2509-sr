@@ -81,19 +81,50 @@ Sources of truth:
   - Demo functional at `/demos/movement.html` ✅
   - Performance verified: 58-60 FPS, <16ms input latency ✅
 
-- **Feature `enemy-spawning-ai` in progress** (ENEMY-1, ENEMY-2, ENEMY-3 completed):
+- **Feature `enemy-spawning-ai` in progress** (ENEMY-1..ENEMY-10 completed):
   - ENEMY-1: Enemy Entity implemented ✅
     - Domain entity with AI state tracking (patrol, chase, fire intervals)
     - Speed calculation (regular: 84, fast: 120)
     - Random interval generation for AI behaviors
     - 18 unit tests passing ✅
+  - ENEMY-2: SpawnManager Service implemented ✅
+    - Manages enemy spawning lifecycle with reserve tracking and spawn limits
+    - 24 unit tests passing ✅
   - ENEMY-3: TargetingService implemented ✅
     - Pure functions for direction calculation, alignment detection, nearest target selection
-    - getDirectionToTarget() with horizontal preference when |dx| >= |dy|
-    - isAlignedWithTarget() with ±32px tolerance for same row/column
-    - getNearestPlayer() using Euclidean distance
     - 21 unit tests passing ✅
-  - Next: ENEMY-4 EnemyAI Service (behavior logic, decision-making)
+  - ENEMY-4: EnemyAI Service implemented ✅
+    - AI behavior service with targeting priorities and shooting logic
+    - 70% base targeting, 30% nearest player targeting with random selection
+    - Shooting every 3s when aligned with target (±32px tolerance)
+    - Direction changes every 2-4s with priority-based target selection
+    - 12 unit tests passing including integration with TargetingService ✅
+  - ENEMY-5: Port Interfaces implemented ✅
+    - ISpawnManager, IAI, IEnemyRenderer interfaces with JSDoc documentation
+    - Contracts for spawn management, AI updates, and enemy rendering
+  - ENEMY-6: SpawnEnemy Use Case implemented ✅
+    - Orchestrates enemy spawning through spawnManager, enemyRenderer, physicsPort
+    - execute(currentTime) returns spawned Enemy or null
+    - Sets up rendering and physics when spawn succeeds
+    - 9 unit tests passing ✅
+  - ENEMY-7: UpdateEnemyAI Use Case implemented ✅
+    - Integrates EnemyAI decisions with MovementService, rendering, and projectile port
+    - Handles direction changes, velocity calc, sprite updates, and timed shooting
+    - 11 unit tests passing ✅
+  - ENEMY-8: DestroyEnemy Use Case implemented ✅
+    - Orchestrates enemy cleanup via SpawnManager, EnemyRenderer, Physics, and HUD ports
+    - Updates HUD enemies remaining
+    - 10 unit tests passing ✅
+  - ENEMY-9: EnemySpriteAdapter implemented ✅
+    - Phaser-based enemy sprite creation, update (position/rotation/velocity), and removal
+    - Added `getSprite(enemyId)` for collision setup
+    - 12 integration tests passing ✅
+  - ENEMY-10: GameScene Enemy Integration (initial) ✅
+    - Wired enemy system into `GameScene` create/update
+    - Added `ProjectileSystemAdapter` and integrated with `UpdateEnemyAI` for enemy shooting
+    - Spawning via `SpawnEnemy.execute(time)`; per-spawn projectile collision setup for enemies
+    - HUD initialized with enemies remaining; collisions for players set up
+    - All tests passing: 272/272 ✅
 
 - **Vitest Migration Completed** (2025-11-16):
   - All 197 tests successfully migrated from Jest to Vitest 4.0.9 ✅
@@ -107,7 +138,7 @@ Sources of truth:
   - Movement demo verified working at `/demos/movement.html` ✅
   - All tests passing: 14 test files, 197 tests, 100% pass rate ✅
 
-- Phase: Three features completed. Vitest migration complete. Enemy spawning feature in progress (ENEMY-1,2,3 done).
+- Phase: Three features completed. Vitest migration complete. Enemy spawning feature in progress (ENEMY-1 through ENEMY-10 done).
 
 ## Notes
 - Documentation source language (PRD/GDD/US) is Spanish; Memory Bank is summarized in English for consistency per project conventions.
