@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>MenuScene Demo Test</title>
+  <style>
+    .ok { color: green; }
+    .fail { color: red; }
+  </style>
+</head>
+<body>
+  <div id="menu-root"></div>
+  <pre id="log"></pre>
+  <script type="module">
+    import MenuScene from '../../src/infrastructure/scenes/MenuScene.js';
+    import GameState from '../../src/infrastructure/config/GameState.js';
+
+    const log = (msg, pass=true) => {
+      const el = document.getElementById('log');
+      el.innerHTML += `\n${pass ? '✔' : '✘'} ${msg}`;
+    };
+
+    const root = document.getElementById('menu-root');
+    GameState.reset();
+    const menu = new MenuScene({ root, onStart: () => {} });
+    menu.mount();
+
+    const options = [...document.querySelectorAll('.menu-option')];
+    log('Rendered 3 options', options.length === 3);
+    log('Default focus on 1P', options[0].classList.contains('focused'));
+
+    // simulate ArrowDown
+    const kd = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    globalThis.dispatchEvent(kd);
+    log('Focus moved to 2P', options[1].classList.contains('focused'));
+
+    // Enter to select 2P
+    const enter = new KeyboardEvent('keydown', { key: 'Enter' });
+    globalThis.dispatchEvent(enter);
+    log('GameState is 2P', GameState.getSelectedMode() === '2P');
+
+    // Move to START
+    globalThis.dispatchEvent(kd);
+    log('Focus moved to START', options[2].classList.contains('focused'));
+  </script>
+</body>
+</html>

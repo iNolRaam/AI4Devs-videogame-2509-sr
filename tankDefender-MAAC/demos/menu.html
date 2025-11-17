@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tank Defender — Menu (MVP)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Additional menu-specific overrides if needed */
+    .menu-wrapper { display: flex; flex-direction: column; gap: 12px; max-width: 320px; margin: 64px auto; }
+    .menu-option { padding: 12px 16px; font-size: 18px; }
+    .menu-option.focused { outline: 3px solid #3b82f6; }
+    .banner { text-align: center; margin-top: 24px; color: #666; font-size: 14px; }
+  </style></head>
+<body>
+  <div id="menu-root">
+    <h1 class="menu-title">Tank Defender</h1>
+  </div>
+  <div class="banner">Keyboard: Arrows/Tab to move, Enter to select</div>
+
+  <script type="module">
+    import MenuScene from '../src/infrastructure/scenes/MenuScene.js';
+    import GameState from '../src/infrastructure/config/GameState.js';
+    import StartGame from '../src/application/use-cases/StartGame.js';
+    import LevelJSONRepository from '../src/adapters/repositories/LevelJSONRepository.js';
+    import HUDAdapter from '../src/adapters/hud/HUDAdapter.js';
+
+    // UMD default export compatibility
+    const GS = GameState && GameState.getSelectedMode ? GameState : globalThis.GameState;
+
+    const root = document.getElementById('menu-root');
+    const levelRepo = new LevelJSONRepository();
+    const hudAdapter = new HUDAdapter();
+    const menu = new MenuScene({
+      root,
+      onStart: ({ mode, levelId }) => {
+        const init = StartGame({
+          selectedMode: mode,
+          levelId,
+          levelRepository: levelRepo,
+          hudAdapter
+        });
+        console.log('[START]', init);
+        const msg = document.createElement('pre');
+        msg.textContent = `Starting Level ${init.levelId} with ${init.mode} | Enemies: ${init.enemyCount}`;
+        root.appendChild(msg);
+      }
+    });
+    // Ensure default mode visible
+    GS.reset();
+    menu.mount();
+  </script>
+</body>
+</html>
