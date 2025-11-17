@@ -6,7 +6,7 @@
  * Or integrate with existing test suite
  */
 
-const PerformanceChecker = require('./performanceCheck');
+import PerformanceChecker from './performanceCheck.js';
 
 describe('MENU-6: Performance & QA Pass', () => {
   let checker;

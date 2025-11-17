@@ -1,9 +1,8 @@
 // ResultScene stub (MENU-4)
 // Provides restart() that delegates to RestartGame use case
-const path = require('node:path');
-const RestartGame = require(path.join(__dirname, '../../application/use-cases/RestartGame.js'));
-const LevelJSONRepository = require(path.join(__dirname, '../../adapters/repositories/LevelJSONRepository.js'));
-const HUDAdapter = require(path.join(__dirname, '../../adapters/hud/HUDAdapter.js'));
+import RestartGame from '../../application/use-cases/RestartGame.js';
+import LevelJSONRepository from '../../adapters/repositories/LevelJSONRepository.js';
+import HUDAdapter from '../../adapters/hud/HUDAdapter.js';
 
 class ResultScene {
   constructor() {

@@ -116,9 +116,7 @@ class PerformanceChecker {
 }
 
 // Export for use in tests or manual QA
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = PerformanceChecker;
-}
+export default PerformanceChecker;
 
 // Auto-start if in browser and game is loaded
 if (typeof window !== 'undefined' && window.game) {

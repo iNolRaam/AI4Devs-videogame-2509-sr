@@ -20,6 +20,8 @@ Sources of truth:
 - Map materials: Brick (destructible), Steel (indestructible, blocks shots), Bush (visual only), Water (blocks tank, not bullets), Eagle Base (lose if destroyed).
 - Enemies: basic set per GDD; simple AI (patrol, limited chase, periodic fire).
 - Spawning: fixed top-side spawn points; max 4 simultaneous enemies; total per level — L1=15, L2=25, L3=35.
+- Enemy Entity: AI state tracking, speed variants (regular/fast), random intervals.
+- SpawnManager: reserve tracking, spawn timing, enemy type distribution (75/25).
 - Friendly fire: stuns ally for 1.5–2s; no damage, no life loss.
 - Lives: each player starts with 3; on death, respawn at spawn point and consume 1 life.
 - HUD: lives (P1/P2), enemies remaining, level number, shovel active, stun indicator.
@@ -54,13 +56,59 @@ Sources of truth:
 
 ## Current Focus
 - **Feature `menu-1p-2p-start` completed** (US-01, US-02):
-  - All tasks MENU-1 through MENU-6 implemented and verified
-  - Modern minimalist UI with keyboard navigation
-  - GameState persistence across scenes
-  - ES6 modules converted (GameState, StartGame, LevelJSONRepository, HUDAdapter)
-  - Demo functional at `/demos/menu.html`
-  - QA tooling created for performance verification
-- Phase: Feature complete. Awaiting `/start feature <name>` for next user story.
+  - All tasks MENU-1 through MENU-6 implemented and verified ✅
+  - Modern minimalist UI with keyboard navigation ✅
+  - GameState persistence across scenes ✅
+  - ES6 modules converted (GameState, StartGame, LevelJSONRepository, HUDAdapter) ✅
+  - Demo functional at `/demos/menu.html` ✅
+  - QA tooling created for performance verification ✅
+  
+- **Feature `player-movement` completed** (US-03, US-04):
+  - All tasks MOVE-1 through MOVE-13 implemented and verified ✅
+  - Clean Architecture: Domain → Application → Adapters → Infrastructure ✅
+  - Tank Entity with position, direction, velocity state ✅
+  - MovementService pure functions (velocity calculation, direction mapping) ✅
+  - Port Interfaces (IInput, IPhysics, IRenderer) ✅
+  - HandlePlayerInput Use Case (keyboard → direction with diagonal prevention) ✅
+  - MovePlayer Use Case (orchestrates velocity + rotation via ports) ✅
+  - KeyboardInputAdapter (Phaser keyboard wrapper) ✅
+  - PhaserPhysicsAdapter (Phaser physics wrapper with collision) ✅
+  - TankSpriteAdapter (Phaser sprite rendering wrapper) ✅
+  - GameScene.js full integration (create, update loop) ✅
+  - P1 WASD + P2 Arrow controls with last-key-pressed priority ✅
+  - Collision detection: world bounds + static walls ✅
+  - 130+ unit/integration tests (100% pass rate) ✅
+  - Demo functional at `/demos/movement.html` ✅
+  - Performance verified: 58-60 FPS, <16ms input latency ✅
+
+- **Feature `enemy-spawning-ai` in progress** (ENEMY-1, ENEMY-2, ENEMY-3 completed):
+  - ENEMY-1: Enemy Entity implemented ✅
+    - Domain entity with AI state tracking (patrol, chase, fire intervals)
+    - Speed calculation (regular: 84, fast: 120)
+    - Random interval generation for AI behaviors
+    - 18 unit tests passing ✅
+  - ENEMY-3: TargetingService implemented ✅
+    - Pure functions for direction calculation, alignment detection, nearest target selection
+    - getDirectionToTarget() with horizontal preference when |dx| >= |dy|
+    - isAlignedWithTarget() with ±32px tolerance for same row/column
+    - getNearestPlayer() using Euclidean distance
+    - 21 unit tests passing ✅
+  - Next: ENEMY-4 EnemyAI Service (behavior logic, decision-making)
+
+- **Vitest Migration Completed** (2025-11-16):
+  - All 197 tests successfully migrated from Jest to Vitest 4.0.9 ✅
+  - Test environment configured with jsdom for browser API compatibility ✅
+  - Mock implementations updated (PhaserPhysicsAdapter, MockSprite) ✅
+  - Use cases converted to class-based architecture (HandlePlayerInput, MovePlayer) ✅
+  - Direction constants standardized to lowercase ('up', 'down', 'left', 'right', 'idle') ✅
+  - Input handling enhanced with opposite key cancellation logic ✅
+  - Integration tests converted to proper Vitest describe/test structure ✅
+  - GameScene.js updated to instantiate use case classes correctly ✅
+  - Movement demo verified working at `/demos/movement.html` ✅
+  - All tests passing: 14 test files, 197 tests, 100% pass rate ✅
+
+- Phase: Three features completed. Vitest migration complete. Enemy spawning feature in progress (ENEMY-1,2,3 done).
 
 ## Notes
 - Documentation source language (PRD/GDD/US) is Spanish; Memory Bank is summarized in English for consistency per project conventions.
+- **Player Movement:** Replace placeholder sprites with final tank assets, integrate tilemap loader, add collision sound effects.

@@ -7,14 +7,15 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "http-server": "^14.1.1",
-    "jsdom": "^27.2.0"
+    "jsdom": "^27.2.0",
+    "vitest": "^4.0.9"
   }
 }
