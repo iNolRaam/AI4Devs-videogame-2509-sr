@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Frogger Phaser3</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center p-4">
+<h1 class="text-3xl mb-4">Frogger Phaser 3</h1>
+
+<div id="menu" class="flex flex-col items-center gap-2">
+  <input id="initials" maxlength="3" class="text-black p-1" placeholder="ABC"/>
+  <button id="startBtn" class="bg-green-500 px-4 py-2 rounded">Iniciar</button>
+  <button id="scoresBtn" class="bg-blue-500 px-4 py-2 rounded">Ver High Score</button>
+</div>
+
+<div id="scores" class="hidden mt-4"></div>
+
+<div id="gameContainer" class="hidden mt-4">
+  <div id="game"></div>
+</div>
+
+<script src="main.js"></script>
+<script src="scenes/GameScene.js"></script>
+<script src="scenes/UIScene.js"></script>
+</body>
+</html>
